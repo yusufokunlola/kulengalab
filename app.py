@@ -2,37 +2,61 @@ import streamlit as st # pip install pandas
 import pandas as pd # pip install streamlit
 
 # Set title header
-# st.set_page_config(page_title="Education Dashboard")
+st.title("KulengaLab Data Dashboard")
 
-st.title("Education Dashboard")
+# Sidebar for selecting which app to run
+app_selection = st.sidebar.selectbox("Select App", ["Education", "Religion"])
 
-# Load your dataset
-data = pd.read_csv('education.csv') 
+if app_selection == "Education":
+    # Load the education dataset
+    data = pd.read_csv('education.csv')
+    # Rest of the code for the education app
 
-# data columns = ['Name', 'Category', 'Address', 'Phone Number', 'Website']
+    # Sidebar for selecting category
+    category = st.sidebar.selectbox("Select Category", data['Category'].unique())
 
+    # Filter data based on selected category
+    filtered_data = data[data['Category'] == category]
 
-# Sidebar for selecting category
-category = st.sidebar.selectbox("Select Category", data['Category'].unique())
+    # Search by name
+    search_name = st.text_input("Search by Name")
 
-# Filter data based on selected category
-filtered_data = data[data['Category'] == category]
+    # Filter data based on the search_name
+    if search_name:
+        filtered_data = filtered_data[filtered_data['Name'].str.contains(search_name, case=False)]
 
-# Search by name
-search_name = st.text_input("Search by Name")
+    # Display phone number, website, and address
+    if not filtered_data.empty:
+        st.write("Matching Records (Education):")
+        st.table(filtered_data[['Name', 'Address', 'Phone Number', 'Website']])
+    else:
+        st.write("No matching records found (Education)")
 
-# Filter data based on the search_name
-if search_name:
-    filtered_data = filtered_data[filtered_data['Name'].str.contains(search_name, case=False)]
-    
+elif app_selection == "Religion":
+    # Load the religion dataset
+    data = pd.read_csv('religion.csv')
+    # Rest of the code for the religion app
 
-# Display phone number, website and address
-if not filtered_data.empty:
-    st.write("Matching Records:")
-    st.table(filtered_data[['Name', 'Address', 'Phone Number', 'Website']])
-else:
-    st.write("No matching records found.")
+    # Sidebar for selecting category
+    category = st.sidebar.selectbox("Select Category (Religion)", data['Category'].unique())
 
+    # Filter data based on selected category
+    filtered_data = data[data['Category'] == category]
+
+    # Search by name
+    search_name = st.text_input("Search by Name (Religion)")
+
+    # Filter data based on the search_name
+    if search_name:
+        filtered_data = filtered_data[filtered_data['Name'].str.contains(search_name, case=False)]
+
+    # Display phone number, website, and address
+    if not filtered_data.empty:
+        st.write("Matching Records (Religion):")
+        st.table(filtered_data[['Name', 'Address', 'Phone Number', 'Website']])
+    else:
+        st.write("No matching records found (Religion)")
+        
 
 # ---- HIDE STREAMLIT STYLE ----
 hide_st_style = """
