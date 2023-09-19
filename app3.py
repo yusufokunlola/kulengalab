@@ -22,14 +22,9 @@ selected_year = st.sidebar.selectbox('Select Year:', ('1991', '2006', '2022'))
 filtered_data = df[df['Local Government Area'] == selected_area][f'{selected_year} Census'].values[0]
 
 # Display the selected data
-# st.write(f'Selected Local Government Area: {selected_area}')
-# st.write(f'Selected Year: {selected_year}')
-# st.write(f'Census for {selected_year}: {filtered_data:.2f}')
-
-# Display the selected data with blue color
-st.markdown(f'<span style="color: blue">Selected Local Government Area:</span> {selected_area}', unsafe_allow_html=True)
-st.markdown(f'<span style="color: blue">Selected Year:</span> {selected_year}', unsafe_allow_html=True)
-st.markdown(f'<span style="color: blue">Census for {selected_year}:</span> {filtered_data:.2f}', unsafe_allow_html=True)
+st.write(f'Selected Local Government Area: {selected_area}')
+st.write(f'Selected Year: {selected_year}')
+st.write(f'Census for {selected_year}: {filtered_data:.2f}')
 
 
 # Plotting the Line Chart
